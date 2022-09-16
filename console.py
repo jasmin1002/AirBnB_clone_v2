@@ -119,12 +119,7 @@ class HBNBCommand(cmd.Cmd):
         cmdline_params = args[1]
 
         if cmdline_params:
-            parsed = (
-                (x.strip().replace('"', ''), y.strip().replace('"', ''))
-                for x, y in (element.split('=')
-                for element in cmdline_params.split(' ')))
-        cmdline_params = dict(parsed)
-
+            cmdline_params = cmdline_params.split()
 
         """ Create an object of any class"""
         if cls_name is None:
@@ -136,21 +131,20 @@ class HBNBCommand(cmd.Cmd):
         else:
             instance = HBNBCommand.classes[cls_name]()
 
-            for (key, value) in cmdline_params.items():
-                if "_" in value:
+            for attr in cmdline_params:
+                if '=' in attr:
+                    key, value = attr.split('=')
                     value = value.replace("_", " ")
-                    setattr(instance, key, value)
-                elif "." in value:
-                    value = float(value)
-                    setattr(instance, key, value)
-                elif value[0] == '0':
-                    setattr(instance, key, value)
-                else:
-                    setattr(instance, key, int(value))
+                    if value[0] == value[-1] == '"':
+                        value = value[1:-1].replace("\\", "")
+                    elif "." in value:
+                        value = float(value)
+                    else:
+                        value = int(value)
+                setattr(instance, key, value)
 
-            storage.save()
+            instance.save()
             print(instance.id)
-            storage.save()
 
     def help_create(self):
         """ Help information for the create method """
