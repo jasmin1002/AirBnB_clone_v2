@@ -126,7 +126,6 @@ class HBNBCommand(cmd.Cmd):
         cmdline_params = dict(parsed)
 
 
-        print(cmdline_params)
         """ Create an object of any class"""
         if cls_name is None:
             print("** class name missing **")
