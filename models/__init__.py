@@ -6,7 +6,7 @@ from models.engine.db_storage import DBStorage
 
 
 storage_type = os.getenv("HBNB_TYPE_STORAGE")
-print(storage_type)
+# print(storage_type)
 storage = ''
 
 if storage_type is 'db':
