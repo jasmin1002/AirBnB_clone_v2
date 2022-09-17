@@ -59,14 +59,32 @@ class DBStorage:
             Returns:
                 collection of all classes or filtered obj
         '''
+        collection = {}
+
         if cls is not None:
-            collections = self.__session.query(cls).all()
+            queryset = self.__session.query(cls).all()
+            for obj in queryset:
+                key = type(obj).__name__ + '.' + obj.id
+                collection[key] = obj
+
             return collections
+
         else:
-            # return self.__session.query
-            for s_class in classes:
-                #self.__session.query(cls).all()
-                pass
+            # Supported classes/tables for Airbnb app
+            classes = [
+                City,
+                State,
+            ]
+            tmp = []
+
+            for cls in classes:
+                queryset = self.__session.query(cls).all()
+                tmp.extend(queryset)
+
+            for obj in tmp:
+                key = type(obj).__name__ + '.' + obj.id
+                collection[key] = obj
+            return collection
 
     def new(self, obj):
         self.__session.add(obj)

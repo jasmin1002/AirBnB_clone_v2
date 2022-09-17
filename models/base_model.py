@@ -61,7 +61,7 @@ class BaseModel:
         return '[{}] ({}) {}'.format(
             type(self).__name__,
             self.id,
-            self.__dict__
+            self.to_dict()
         )
 
     def save(self):
@@ -94,9 +94,11 @@ class BaseModel:
         for (key, value) in self.__dict__.items():
             if type(value) is datetime:
                 new_dict[key] = value.isoformat()
+            elif key == '_sa_instance_state':
+                continue
             else:
                 new_dict[key] = value
-            new_dict['__class__'] = self.__class__.__name__
+        new_dict['__class__'] = self.__class__.__name__
         return new_dict
 
     def delete(self):
