@@ -3,10 +3,11 @@
     Abstracted data storage
 '''
 import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine, exc
+from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
-from model import classes
+from models.city import City
+from models.state import State
 
 
 class DBStorage:
@@ -33,14 +34,16 @@ class DBStorage:
         username = os.getenv("HBNB_MYSQL_USER")
         passwd = os.getenv("HBNB_MYSQL_PWD")
         host = os.getenv("HBNB_MYSQL_HOST")
-        database=os.getenv("HBNB_MYSQL_DB")
+        database = os.getenv("HBNB_MYSQL_DB")
 
+        # Database connection url
         connect_url = 'mysql+mysqldb://{}:{}@{}:3306/{}'.\
             format(username, passwd, host, database)
 
+        # Create lazy database connection
         self.__engine = create_engine(connect_url, pool_pre_ping=True)
 
-        if os.getenv("HBNB_ENV") is 'test':
+        if os.getenv("HBNB_ENV") == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
@@ -56,12 +59,41 @@ class DBStorage:
             Returns:
                 collection of all classes or filtered obj
         '''
-        Session = sessionmaker(bind=self.__engine)
-        self.__session = Session()
-
         if cls is not None:
-            # collections = self.__session.query(cls).all()
+            collections = self.__session.query(cls).all()
             return collections
         else:
             # return self.__session.query
-            pass
+            for s_class in classes:
+                #self.__session.query(cls).all()
+                pass
+
+    def new(self, obj):
+        self.__session.add(obj)
+        self.save()
+
+    def save(self):
+        self.__session.commit()
+        self.__session.remove()
+
+    def delete(self, obj=None):
+        pass
+
+    def reload(self):
+        # Create all required and neccessary tables
+        try:
+            Base.metadata.create_all(self.__engine)
+
+            # Establish connection for transaction
+            session_factory = sessionmaker(
+                bind=self.__engine,
+                expire_on_commit=False
+            )
+            Session = scoped_session(session_factory)
+            self.__session = Session()
+        except exc.OperationalError as err:
+            msg = "Operation error: cant't connect. Ensure database server\
+ is start and running."
+            print("{}".format(msg))
+        except Exception as err:
+            print("Error: {}".format(type(err)))
