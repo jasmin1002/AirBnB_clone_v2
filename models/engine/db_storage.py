@@ -74,7 +74,7 @@ class DBStorage:
 
     def save(self):
         self.__session.commit()
-        self.__session.remove()
+        self.__session.close()
 
     def delete(self, obj=None):
         pass
