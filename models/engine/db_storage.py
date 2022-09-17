@@ -8,6 +8,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models.city import City
 from models.state import State
+from models.user import User
 
 
 class DBStorage:
@@ -74,6 +75,7 @@ class DBStorage:
             classes = [
                 City,
                 State,
+                User,
             ]
             tmp = []
 
