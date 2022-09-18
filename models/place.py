@@ -4,6 +4,25 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
 
+place_amenity = Table(
+    'place_amenity',
+    Base.metadata,
+    Column(
+        'place_id',
+        String(60),
+        ForeignKey('places.id'),
+        primary_key=True,
+        nullable=False
+    ),
+    Column(
+        'amenity_id',
+        String(60),
+        ForeignKey('amenities.id'),
+        primary_key=True,
+        nullable=False
+    )
+)
+
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -28,3 +47,21 @@ class Place(BaseModel, Base):
         cascade='all, delete, delete-orphan',
         back_populates='place'
     )
+
+    amenities = relationship(
+        'Amenity',
+        secondary=place_amenity,
+        viewonly=False
+    )
+
+    @property
+    def reviews(self):
+        return reviews  # Incomplete to work with FileStorage (Modify later)
+
+    @property
+    def amenities(self):
+        return amenities    # Incomplete code for FileStorage (Modify later)
+
+    @amenities.setter
+    def amenities(self, id):
+        pass    # Incomplete code for FileStorage (Modify later)
