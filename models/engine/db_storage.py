@@ -76,6 +76,7 @@ class DBStorage:
                 City,
                 State,
                 User,
+                Place,
             ]
             tmp = []
 
