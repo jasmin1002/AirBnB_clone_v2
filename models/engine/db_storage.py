@@ -8,6 +8,10 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 from models.city import City
 from models.state import State
+from models.user import User
+#from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
 
 
 class DBStorage:
@@ -59,14 +63,35 @@ class DBStorage:
             Returns:
                 collection of all classes or filtered obj
         '''
+        collection = {}
+
         if cls is not None:
-            collections = self.__session.query(cls).all()
+            queryset = self.__session.query(cls).all()
+            for obj in queryset:
+                key = type(obj).__name__ + '.' + obj.id
+                collection[key] = obj
+
             return collections
+
         else:
-            # return self.__session.query
-            for s_class in classes:
-                #self.__session.query(cls).all()
-                pass
+            # Supported classes/tables for Airbnb app
+            classes = [
+                City,
+                State,
+                User,
+                Review,
+                Amenity
+            ]
+            tmp = []
+
+            for cls in classes:
+                queryset = self.__session.query(cls).all()
+                tmp.extend(queryset)
+
+            for obj in tmp:
+                key = type(obj).__name__ + '.' + obj.id
+                collection[key] = obj
+            return collection
 
     def new(self, obj):
         self.__session.add(obj)
@@ -74,7 +99,7 @@ class DBStorage:
 
     def save(self):
         self.__session.commit()
-        self.__session.remove()
+        self.__session.close()
 
     def delete(self, obj=None):
         pass

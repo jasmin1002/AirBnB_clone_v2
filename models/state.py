@@ -19,4 +19,4 @@ class State(BaseModel, Base):
 
     @property
     def cities(self):
-        return cities
+        return cities   # Incomplete to work correctly with fileStorage. (modify)
