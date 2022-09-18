@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Float
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.schema import Table
 
 place_amenity = Table(
     'place_amenity',
@@ -51,10 +52,8 @@ class Place(BaseModel, Base):
     amenities = relationship(
         'Amenity',
         secondary=place_amenity,
-        viewonly=False
+        viewonly=False,
     )
-
-    #places = relationship('Place')
 
     @property
     def reviews(self):

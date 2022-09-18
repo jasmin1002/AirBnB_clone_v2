@@ -14,5 +14,5 @@ class Amenity(BaseModel, Base):
     place_amenities = relationship(
         'Place',
         secondary='place_amenity',
-        back_populates='places'
+        #back_populates='places'
     )
