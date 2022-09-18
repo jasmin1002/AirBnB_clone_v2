@@ -28,3 +28,7 @@ class Place(BaseModel, Base):
         cascade='all, delete, delete-orphan',
         back_populates='place'
     )
+
+    @property
+    def reviews:
+        return reviews  # Incomplete to work with fileStorage (Modify later)
