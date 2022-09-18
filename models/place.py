@@ -54,6 +54,8 @@ class Place(BaseModel, Base):
         viewonly=False
     )
 
+    #places = relationship('Place')
+
     @property
     def reviews(self):
         return reviews  # Incomplete to work with FileStorage (Modify later)
