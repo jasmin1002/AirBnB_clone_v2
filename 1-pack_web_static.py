@@ -1,29 +1,24 @@
 #!/usr/bin/python3
-'''
-    Script to generate a tgz archive file
-'''
-from datetime import datetime
+
 import os
+from datetime import datetime
 from fabric.api import *
+
 
 def do_pack():
     '''
         Script to generate a compressed archive file
     '''
-    # Generate datetime object
-    #today = datetime.now()
+    today = datetime.now()
+    today = today.strftime("%Y%m%d%H%M%S")
 
-    # Convert datetime obj to str
-    #today = today.strftime("%Y%m%d%H%M%S")
-
+    filename = 'web_static_' + today + '.tgz'
     path = './versions'
     isExist = os.path.exists(path)
 
     if not isExist:
         os.makedirs(path)
 
-
-    local("tar -cvzf versions/web_static_$(date '+%Y%m%d%H%M%S').tgz web_static")
-    #print(type(today))
-    #print("Today's date: {}".format(today))
-
+    msg = 'Packing web_static to versions/{}'.format(filename)
+    print(msg)
+    local("tar -cvzf versions/{} web_static".format(filename))
