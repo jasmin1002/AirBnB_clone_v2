@@ -3,3 +3,8 @@ models/*__
 models/*/*__
 main_delete.py
 test_db.py
+fabfile.py
+versions
+__pycache__
+test
+web
