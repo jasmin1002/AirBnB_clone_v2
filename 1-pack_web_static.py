@@ -42,6 +42,6 @@ def do_pack():
         msg = 'web_static packed: {} -> {}Bytes'.\
             format(relative_path, file_size)
         print(msg)
-        return 'versions/{}'.format(filename)
+        return relative_path 
     else:
         return None
