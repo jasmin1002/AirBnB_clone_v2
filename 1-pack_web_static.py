@@ -21,4 +21,27 @@ def do_pack():
 
     msg = 'Packing web_static to versions/{}'.format(filename)
     print(msg)
-    local("tar -cvzf versions/{} web_static".format(filename))
+    result = local(
+        "tar -cvzf versions/{} web_static".format(filename),
+        capture=False
+    )
+
+    if (result.succeeded):
+        # Archive file path
+        path = '{}/{}'.format(path, filename)
+
+        # Current working directory
+        start = os.getcwd()
+
+        # Archive relative file path from working directory
+        relative_path = os.path.relpath(path, start)
+
+        # Archive file size
+        file_size = os.path.getsize(relative_path)
+
+        msg = 'web_static packed: {} -> {}Bytes'.\
+            format(relative_path, file_size)
+        print(msg)
+        return 'versions/{}'.format(filename)
+    else:
+        return None
