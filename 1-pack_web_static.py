@@ -7,6 +7,9 @@ import os
 from fabric.api import *
 
 def do_pack():
+    '''
+        Script to generate a compressed archive file
+    '''
     # Generate datetime object
     #today = datetime.now()
 
