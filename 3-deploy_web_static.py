@@ -12,6 +12,7 @@ do_deploy = __import__('2-do_deploy_web_static').do_deploy
 # web servers' addresses
 env.hosts = ['35.175.133.237', '44.200.171.3']
 
+
 def deploy():
     '''
         Script creates and distributes an archive
