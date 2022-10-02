@@ -7,6 +7,35 @@ echo -e "<html>\n\t<head>\n\t</head>\n\t<body>\n\t\tHolberton School\n\t</body>\
 #[ -e /data/web_static/current ] && rm /data/web_static/current
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown -R ubuntu:ubuntu /data
-sudo sed -i 's/server_name _;/server_name filess.tech;/' /etc/nginx/sites-available/default
-sudo sed -i 's/server_name filess.tech;/&\n\n\tlocation \/hbnb_static\/ {\n\t\talias \/data\/web_static\/current\/;\n\t}/' /etc/nginx/sites-available/default
+printf %s "server {
+	listen 80;
+	listen [::]:80;
+
+	root /var/www/html;
+
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name filess.tech;
+
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+
+	location /redirect_me {
+		return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4\ permanent;
+	}
+
+	location /hbnb_static/ {
+		alias /data/web_static/current/;
+	}
+
+	error_page 404 /custom_404.html;
+	location = /custom_404.html {
+		root /usr/share/nginx/html;
+		internal;
+	}
+}" > /etc/nginx/sites-available/default
+#sudo sed -i 's/server_name _;/server_name filess.tech;/' /etc/nginx/sites-available/default
+#sudo sed -i 's.\n\n\tlocation \/hbnb_static\/ {\n\t\talias \/data\/web_static\/current\/;\n\t}..' /etc/nginx/sites-available/default
+#sudo sed -i 's/server_name filess.tech;/&\n\n\tlocation \/hbnb_static\/ {\n\t\talias \/data\/web_static\/current\/;\n\t}/' /etc/nginx/sites-available/default
 sudo service nginx restart
