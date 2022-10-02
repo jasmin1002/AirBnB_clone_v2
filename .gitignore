@@ -8,3 +8,4 @@ versions
 __pycache__
 test
 web
+download.py
