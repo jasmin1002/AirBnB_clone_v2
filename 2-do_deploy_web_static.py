@@ -3,7 +3,7 @@
     Script distributes an archive to
     web servers through automation
 '''
-from fabric.api import put, run 
+from fabric.api import put, run
 import os
 
 # Servers's addresses
