@@ -14,7 +14,7 @@ def do_deploy(archive_path):
     '''
         Deploy web static content to web server
     '''
-    if archive_path is None:
+    if os.path.isfile(archive_path) is False:
         return False
 
     start = 'versions'
@@ -24,7 +24,7 @@ def do_deploy(archive_path):
         filename = os.path.relpath(archive_path, start)
 
         # Upload the archive to /tmp/ dir web server
-        put("{}".format(archive_path), "/tmp/{}".format(filename))
+        put(archive_path, "/tmp/{}".format(filename))
 
         # Cut off both the file extension and dot
         folder = filename.split('.')[0]
