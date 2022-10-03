@@ -9,6 +9,7 @@ from datetime import datetime
 # web servers' addresses
 env.hosts = ['35.175.133.237', '44.200.171.3']
 
+
 def do_pack():
     '''
         Generate a compressed archive file
@@ -51,7 +52,12 @@ def do_pack():
     else:
         return None
 
+
 def do_deploy(archive_path):
+    '''
+        Distribute archive file to all hosts
+        (web servers)
+    '''
     if os.path.exists(archive_path) is False:
         return False
 
@@ -74,6 +80,7 @@ def do_deploy(archive_path):
         return True
     except Exception:
         return False
+
 
 def deploy():
     '''
