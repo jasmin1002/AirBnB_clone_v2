@@ -1,7 +1,7 @@
 # Resource type: exec
 # Web server static files set-up
 
-package { 'Nginx':
+package { 'nginx':
   ensure => 'present'
 }
 
