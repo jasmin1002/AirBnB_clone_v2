@@ -2,9 +2,9 @@
 # Web server static files set-up
 
 exec { 'web_static':
-  command => '[ ! -d /etc/nginx ] && sudo apt-get update && sudo apt-get -y install nginx;
+  command  => '[ ! -d /etc/nginx ] && sudo apt-get update && sudo apt-get -y install nginx;
   [ -d /data ] || mkdir -p /data/web_static/shared /data/web_static/releases/test/;
-  echo -e "<html>\n\t<head>\n\t</head>\n\t<body>\n\tHolberton School\n\t</body>\n</html>" | sudo tee /data/web_static/releases/test/index.html;
+  echo -e "Holberton School" | sudo tee /data/web_static/releases/test/index.html;
   ln -sf /data/web_static/releases/test/ /data/web_static/current;
   chown -R ubuntu:ubuntu /data;
   printf % "server {
@@ -38,5 +38,5 @@ exec { 'web_static':
   	}
   }" > /etc/nginx/sites-available/default;
   sudo service nginx restart;',
-  provide => 'shell',
+  provider => 'shell',
 }
