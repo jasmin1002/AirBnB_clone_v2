@@ -1,6 +1,10 @@
 # Resource type: exec
 # Web server static files set-up
 
+package { 'Nginx':
+  ensure => 'present'
+}
+
 exec { 'web_static':
   command  => '[ ! -d /etc/nginx ] && sudo apt-get update && sudo apt-get -y install nginx;
   [ -d /data ] || mkdir -p /data/web_static/shared /data/web_static/releases/test/;
