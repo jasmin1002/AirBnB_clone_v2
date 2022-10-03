@@ -11,7 +11,7 @@ exec { 'web_static':
   echo -e "Holberton School" | sudo tee /data/web_static/releases/test/index.html;
   ln -sf /data/web_static/releases/test/ /data/web_static/current;
   chown -R ubuntu:ubuntu /data;
-  printf % "server {
+  printf %s "server {
   	listen 80;
   	listen [::]:80;
 
