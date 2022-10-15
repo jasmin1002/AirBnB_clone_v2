@@ -5,7 +5,6 @@ on port 5000
 '''
 
 from flask import Flask
-from flask import escape
 
 #: flask: app stores instance of Flask
 app = Flask(__name__)
