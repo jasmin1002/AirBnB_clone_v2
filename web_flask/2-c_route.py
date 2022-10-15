@@ -29,12 +29,11 @@ def c_text(text):
     Serves a http response to 'c/<text>' endpoint
 
     Args:
-        param (str): passed in data to url
+        text (str): passed in data to url
 
     Returns:
         str: The return value
     '''
-    #msg = '{}'.format(escape(text.replace('_', ' ')))
     return f"c {text.replace('_', ' ')}"
 
 
