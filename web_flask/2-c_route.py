@@ -33,7 +33,7 @@ def c_text(text):
     Returns:
         str: The return value
     '''
-    return "c {}".format(text.replace('_', ' '))
+    return "C {}".format(text.replace('_', ' '))
 
 
 if __name__ == '__main__':
