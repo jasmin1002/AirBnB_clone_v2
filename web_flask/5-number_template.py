@@ -82,7 +82,7 @@ def display_int(**n):
     function view
 
     Args:
-        **n: Arbitrary keywork arguments
+        **n: Arbitrary keyword arguments
 
     Returns:
         str: Returns string value as a response
@@ -92,6 +92,16 @@ def display_int(**n):
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
 def number_page(**n):
+    '''
+    Serve http response to /number_template/<n> endpoint
+    function view
+
+    Args:
+        **n: Arbitrary keyword arguments
+
+    Returns:
+        file: Returns html page as a response
+    '''
     return render_template('5-number.html', context=n)
 
 
