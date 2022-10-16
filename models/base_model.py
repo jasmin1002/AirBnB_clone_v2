@@ -33,8 +33,21 @@ class BaseModel:
                 *args: Variable length argument list
                 **kwargs: Arbitrary keyword arguments.
         """
+        if 'id' not in kwargs:
+            #: str: unique identity attached to an instance obj
+            self.id = str(uuid4())
 
-        if len(kwargs) > 0:
+            #: datetime: updated_at set to datetime obj
+            self.updated_at = datetime.now()
+
+            #: datetime: created_at set to datetime obj
+            self.created_at = datetime.now()
+
+            #: str: name of an instance obj
+            if 'name' in kwargs:
+                self.name = kwargs['name']
+
+        else:
             for (key, value) in kwargs.items():
                 if isinstance(key, datetime):
 
@@ -45,16 +58,6 @@ class BaseModel:
                 elif key != '__class__':
                     #: str: every other attributes except one with __class__
                     setattr(self, key, value)
-
-        else:
-            #: str: id attribute set to str
-            self.id = str(uuid4())
-
-            #: datetime: updated_at set to datetime obj
-            self.updated_at = datetime.now()
-
-            #: datetime: created_at set to datetime obj
-            self.created_at = datetime.now()
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -102,4 +105,13 @@ class BaseModel:
         return new_dict
 
     def delete(self):
+        '''
+        Remove an instance object from data set
+
+        Args:
+            No required parameter
+
+        Returns:
+            Always return None
+        '''
         storage.delete(self)
