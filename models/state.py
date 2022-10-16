@@ -19,4 +19,20 @@ class State(BaseModel, Base):
 
     @property
     def cities(self):
-        return cities   # Incomplete to work correctly with fileStorage. (modify)
+        from models import storage
+        from models.city import City
+
+        #: list of city: Stores list of city of current state
+        city_list = []
+
+        # Retrieve all city instances in storage
+        all_cities = storage.all(City).values()
+
+        # For each iteration through all_cities list,
+        # retrieve city associate with current state
+        # i.e where city's state_id equals state's id
+        for city in all_cities:
+            if city.state_id == self.id:
+                city_list.append(city)
+
+        return city_list
