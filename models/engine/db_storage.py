@@ -9,7 +9,7 @@ from models.base_model import Base
 from models.city import City
 from models.state import State
 from models.user import User
-#from models.place import Place
+# from models.place import Place
 from models.review import Review
 from models.amenity import Amenity
 
@@ -71,8 +71,6 @@ class DBStorage:
                 key = type(obj).__name__ + '.' + obj.id
                 collection[key] = obj
 
-            return collections
-
         else:
             # Supported classes/tables for Airbnb app
             classes = [
@@ -91,7 +89,8 @@ class DBStorage:
             for obj in tmp:
                 key = type(obj).__name__ + '.' + obj.id
                 collection[key] = obj
-            return collection
+
+        return collection
 
     def new(self, obj):
         self.__session.add(obj)
@@ -99,7 +98,6 @@ class DBStorage:
 
     def save(self):
         self.__session.commit()
-        self.__session.close()
 
     def delete(self, obj=None):
         pass
@@ -122,3 +120,15 @@ class DBStorage:
             print("{}".format(msg))
         except Exception as err:
             print("Error: {}".format(type(err)))
+
+    def close(self):
+        '''
+        Tear down both session and transaction scopes
+
+        Args:
+            No required argument
+
+        Returns:
+            Always return None
+        '''
+        self.__session.close()
