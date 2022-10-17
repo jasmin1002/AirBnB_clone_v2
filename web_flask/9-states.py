@@ -27,7 +27,7 @@ def states_veiw():
 
     #: list of state obj: Stores collection of state obj
     states = storage.all(State)
-    return render_template('7-states_list.html', states=states.values())
+    return render_template('7-states_list.html', states=states)
 
 
 @app.route('/states<id>', strict_slashes=False)
